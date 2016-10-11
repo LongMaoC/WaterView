@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--两只画笔的颜色-->
+    <attr name="waterview_paint_color_first" format="color"/>
+    <attr name="waterview_paint_color_second" format="color"/>
+
+    <!--振幅-->
+    <attr name="waterview_amplitude" format="integer"/>
+
+
+    <attr name="waterview_offset_increment_value" format="float"/>
+    <attr name="waterview_up_velocity" format="integer"/>
+    <attr name="waterview_sleep_time" format="integer"/>
+    <!--边框宽度颜色-->
+    <attr name="waterview_frame_width" format="dimension"/>
+    <attr name="waterview_frame_color" format="color"/>
+
+
+    <declare-styleable name="WaterView">
+        <attr name="waterview_paint_color_first" />
+        <attr name="waterview_paint_color_second" />
+        <attr name="waterview_amplitude" />
+        <attr name="waterview_offset_increment_value" />
+        <attr name="waterview_up_velocity" />
+        <attr name="waterview_sleep_time" />
+        <attr name="waterview_frame_width" />
+        <attr name="waterview_frame_color" />
+
+
+    </declare-styleable>
+
+</resources>
