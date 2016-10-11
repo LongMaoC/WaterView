@@ -19,14 +19,18 @@
         android:layout_width="250dp"
         android:id="@+id/waterview"
         android:layout_height="250dp"
-        app:waterview_amplitude="40"
-        app:waterview_up_velocity="5"
+
         app:waterview_paint_color_first="#EE0F14"
         app:waterview_paint_color_second="#F77D81"
+        app:waterview_frame_color="#FF0000"
+        app:waterview_frame_width="1dp"
+
+        app:waterview_amplitude="40"
+        app:waterview_up_velocity="5"
+
         app:waterview_sleep_time="100"
         app:waterview_offset_increment_value="0.4"
-        app:waterview_frame_width="1dp"
-        app:waterview_frame_color="#FF0000"
+
         />
 
     <LinearLayout
