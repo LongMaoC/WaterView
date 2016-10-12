@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Region;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /*****************************************
@@ -44,7 +45,8 @@ public class WaterView extends View {
     private int sin_up_velocity = 5;//上升速度，参考值3
     private int sleep_time = 100; //休眠时间，参考值100
     private boolean isStart = false;
-
+    private boolean isRun = false;
+    private boolean isStop = false;
 
     public WaterView(Context context) {
         this(context, null);
@@ -79,10 +81,10 @@ public class WaterView extends View {
         frameWidth = typedArray.getDimension(R.styleable.WaterView_waterview_frame_width, frameWidth);
         frameColor = typedArray.getColor(R.styleable.WaterView_waterview_frame_color, frameColor);
         typedArray.recycle();
-        if(frameWidth ==0){
-            isShowFrame = false ;
-        }else{
-            isShowFrame = true  ;
+        if (frameWidth == 0) {
+            isShowFrame = false;
+        } else {
+            isShowFrame = true;
         }
 
         firstPaint = new Paint();
@@ -113,14 +115,13 @@ public class WaterView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.clipPath(canvasPath, Region.Op.INTERSECT);
-        if(isShowFrame)
+        if (isShowFrame)
             canvas.drawCircle(centerX, centerY, mHeight / 2, framePaint);
         if (isStart) {
             canvas.drawPath(secondPath(), secondPaint);
             canvas.drawPath(firstPath(), firstPaint);
         }
     }
-
 
     //y = Asin(wx+b)+h ，这个公式里：w影响周期，A影响振幅，h影响y位置，b为初相；
     private Path firstPath() {
@@ -136,7 +137,6 @@ public class WaterView extends View {
         firstPath.close();
         return firstPath;
     }
-
 
     private Path secondPath() {
         secondPath.reset();
@@ -196,7 +196,9 @@ public class WaterView extends View {
         if (runThread != null) {
             runThread = null;
         }
+        isRun = false;
         isStart = false;
+        isStop=false;
         h = mHeight;
         sin_offset = 0;
         invalidate();
@@ -205,6 +207,8 @@ public class WaterView extends View {
     RunThread runThread;
 
     public void start() {
+        isRun = true;
+        isStop=false;
         if (!isStart) {
             isStart = true;
             runThread = new RunThread();
@@ -212,11 +216,29 @@ public class WaterView extends View {
         }
     }
 
+    public void stop() {
+        isStop=true;
+    }
+    public void recover() {
+        isStop=false;
+    }
+
+
+    public void setProgress(int progre, int maxVal) {
+
+    }
+
     class RunThread extends Thread {
 
         @Override
         public void run() {
             while (isStart) {
+                if (!isRun) {
+                    return;
+                }
+                if (isStop) {
+                    continue;
+                }
                 try {
                     Thread.sleep(sleep_time);
                     h -= sin_up_velocity;

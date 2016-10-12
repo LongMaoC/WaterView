@@ -13,6 +13,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private WaterView waterView;
     private Button btn_start;
     private Button btn_reset;
+    private Button btn_stop;
+    private Button btn_recover;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initViw();
 
-        btn_reset.setClickable(false);
-        btn_start.setClickable(true);
-
         waterView.setListener(new WaterView.Listener() {
             @Override
             public void finish() {
                 Toast.makeText(MainActivity.this, "已经满了！！！", Toast.LENGTH_SHORT).show();
-                btn_reset.setClickable(true);
             }
         });
     }
@@ -35,8 +35,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initViw() {
         btn_reset = (Button) findViewById(R.id.btn_reset);
         btn_start = (Button) findViewById(R.id.btn_start);
+        btn_stop = (Button) findViewById(R.id.btn_stop);
+        btn_recover= (Button) findViewById(R.id.btn_recover);
         btn_reset.setOnClickListener(this);
         btn_start.setOnClickListener(this);
+        btn_stop.setOnClickListener(this);
+        btn_recover.setOnClickListener(this);
         waterView = (WaterView) findViewById(R.id.waterview);
     }
 
@@ -44,15 +48,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_start:
-                btn_reset.setClickable(false);
-                btn_start.setClickable(false);
                 waterView.start();
+//                    aa();
+                break;
+            case R.id.btn_recover:
+                waterView.recover();
+                break;
+            case R.id.btn_stop:
+                waterView.stop();
                 break;
             case R.id.btn_reset:
-                btn_reset.setClickable(false);
-                btn_start.setClickable(true);
                 waterView.reset();
                 break;
         }
     }
+
+    private void aa()  {
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    try {
+                        Thread.sleep(100);
+                        waterView.setProgress(1,100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }.start();
+    }
+
 }
