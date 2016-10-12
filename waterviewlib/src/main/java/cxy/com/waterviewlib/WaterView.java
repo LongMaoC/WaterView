@@ -47,6 +47,7 @@ public class WaterView extends View {
     private boolean isStart = false;
     private boolean isRun = false;
     private boolean isStop = false;
+    private int progress;//当前进度
 
     public WaterView(Context context) {
         this(context, null);
@@ -221,11 +222,6 @@ public class WaterView extends View {
     }
     public void recover() {
         isStop=false;
-    }
-
-
-    public void setProgress(int progre, int maxVal) {
-
     }
 
     class RunThread extends Thread {

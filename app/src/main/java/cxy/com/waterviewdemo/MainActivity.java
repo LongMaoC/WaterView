@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_recover;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_reset = (Button) findViewById(R.id.btn_reset);
         btn_start = (Button) findViewById(R.id.btn_start);
         btn_stop = (Button) findViewById(R.id.btn_stop);
-        btn_recover= (Button) findViewById(R.id.btn_recover);
+        btn_recover = (Button) findViewById(R.id.btn_recover);
         btn_reset.setOnClickListener(this);
         btn_start.setOnClickListener(this);
         btn_stop.setOnClickListener(this);
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_start:
                 waterView.start();
-//                    aa();
                 break;
             case R.id.btn_recover:
                 waterView.recover();
@@ -61,23 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 waterView.reset();
                 break;
         }
-    }
-
-    private void aa()  {
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 100; i++) {
-                    try {
-                        Thread.sleep(100);
-                        waterView.setProgress(1,100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        }.start();
     }
 
 }

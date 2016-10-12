@@ -19,18 +19,14 @@
         android:layout_width="250dp"
         android:id="@+id/waterview"
         android:layout_height="250dp"
-
         app:waterview_paint_color_first="#EE0F14"
         app:waterview_paint_color_second="#F77D81"
         app:waterview_frame_color="#FF0000"
-        app:waterview_frame_width="1dp"
-
+        app:waterview_frame_width="0dp"
         app:waterview_amplitude="40"
-        app:waterview_up_velocity="5"
-
+        app:waterview_up_velocity="9"
         app:waterview_sleep_time="100"
         app:waterview_offset_increment_value="0.4"
-
         />
 
     <LinearLayout
@@ -40,8 +36,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+
             android:id="@+id/btn_reset"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,16 +44,12 @@
             android:text="重置" />
 
         <Button
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
             android:id="@+id/btn_stop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="暂停" />
         <Button
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
             android:id="@+id/btn_recover"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -66,14 +57,11 @@
             android:text="恢复" />
 
         <Button
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
             android:id="@+id/btn_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="开始" />
-
 
     </LinearLayout>
 </LinearLayout>
