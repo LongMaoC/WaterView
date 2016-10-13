@@ -37,7 +37,7 @@ public class WaterView extends View {
 
     private int secondPaintColor = Color.parseColor("#9292DA");
     private int firstPaintColor = Color.parseColor("#5353C7");
-    private int frameColor = Color.parseColor("#FF0000");
+    private int frameColor = Color.parseColor("#5353C7");
     private float frameWidth;
     private int sin_amplitude = 20;//振幅 ，10到100之间
     private float sin_offset_increment_value = 0.4f;//初项递增值，表示波浪的快慢
@@ -65,7 +65,7 @@ public class WaterView extends View {
         sin_offset_increment_value = 0.4f;//初项递增值，表示波浪的快慢
         sin_up_velocity = 5;//上升速度，参考值3
         sleep_time = 100; //休眠时间，参考值100
-        frameColor = Color.parseColor("#FF0000");
+        frameColor = Color.parseColor("#5353C7");
         frameWidth = dip2px(context, 2);
 
 
