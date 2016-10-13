@@ -47,7 +47,6 @@ public class WaterView extends View {
     private boolean isStart = false;
     private boolean isRun = false;
     private boolean isStop = false;
-    private int progress;//当前进度
 
     public WaterView(Context context) {
         this(context, null);
@@ -82,6 +81,7 @@ public class WaterView extends View {
         frameWidth = typedArray.getDimension(R.styleable.WaterView_waterview_frame_width, frameWidth);
         frameColor = typedArray.getColor(R.styleable.WaterView_waterview_frame_color, frameColor);
         typedArray.recycle();
+
         if (frameWidth == 0) {
             isShowFrame = false;
         } else {
