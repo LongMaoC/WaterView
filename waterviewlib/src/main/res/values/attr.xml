@@ -15,6 +15,7 @@
     <!--边框宽度颜色-->
     <attr name="waterview_frame_width" format="dimension"/>
     <attr name="waterview_frame_color" format="color"/>
+    <attr name="waterview_isShowFrame" format="boolean"/>
 
 
     <declare-styleable name="WaterView">
@@ -27,6 +28,7 @@
         <attr name="waterview_frame_width" />
         <attr name="waterview_frame_color" />
 
+        <attr name="waterview_isShowFrame" />
 
     </declare-styleable>
 

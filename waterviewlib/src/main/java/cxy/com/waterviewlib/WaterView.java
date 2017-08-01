@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Region;
+import android.transition.Explode;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewDebug;
 
 /*****************************************
  * 水波纹效果
@@ -18,13 +20,13 @@ import android.view.View;
  ****************************************/
 public class WaterView extends View {
 
-    private final boolean isShowFrame;
+    private boolean isShowFrame;
     private int mWidth;
     private int mHeight;
     private float centerX;
     private float centerY;
 
-    Path canvasPath = new Path();
+    private Path canvasPath = new Path();
     private Path firstPath = new Path();
     private Paint firstPaint;
     private Path secondPath = new Path();
@@ -44,8 +46,13 @@ public class WaterView extends View {
     private int sin_up_velocity = 5;//上升速度，参考值3
     private int sleep_time = 100; //休眠时间，参考值100
     private boolean isStart = false;
-    private boolean isRun = false;
     private boolean isStop = false;
+    private boolean isKeepHeight = false;
+
+
+    private int type;
+    public static final int TYPE_CIRCLE = 1;
+    public static final int TYPE_RECT = 2;
 
     public WaterView(Context context) {
         this(context, null);
@@ -67,7 +74,8 @@ public class WaterView extends View {
         sleep_time = 100; //休眠时间，参考值100
         frameColor = Color.parseColor("#5353C7");
         frameWidth = dip2px(context, 2);
-
+        type = TYPE_CIRCLE;
+        isShowFrame = false;
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterView);
         firstPaintColor = typedArray.getColor(R.styleable.WaterView_waterview_paint_color_first, firstPaintColor);
@@ -79,13 +87,10 @@ public class WaterView extends View {
         sleep_time = typedArray.getInt(R.styleable.WaterView_waterview_sleep_time, sleep_time);
         frameWidth = typedArray.getDimension(R.styleable.WaterView_waterview_frame_width, frameWidth);
         frameColor = typedArray.getColor(R.styleable.WaterView_waterview_frame_color, frameColor);
+        isShowFrame = typedArray.getBoolean(R.styleable.WaterView_waterview_frame_color, false);
         typedArray.recycle();
 
-        if (frameWidth == 0) {
-            isShowFrame = false;
-        } else {
-            isShowFrame = true;
-        }
+        if (frameWidth == 0) isShowFrame = false;
 
         firstPaint = new Paint();
         firstPaint.setColor(firstPaintColor);
@@ -106,7 +111,6 @@ public class WaterView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         this.h = mHeight;
-
         canvasPath.addCircle(centerX, centerY, mHeight / 2, Path.Direction.CCW);
         reset();
 
@@ -115,8 +119,8 @@ public class WaterView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.clipPath(canvasPath, Region.Op.INTERSECT);
-        if (isShowFrame)
-            canvas.drawCircle(centerX, centerY, mHeight / 2, framePaint);
+        if (isShowFrame) canvas.drawCircle(centerX, centerY, mHeight / 2, framePaint);
+
         if (isStart) {
             canvas.drawPath(secondPath(), secondPaint);
             canvas.drawPath(firstPath(), firstPaint);
@@ -196,19 +200,17 @@ public class WaterView extends View {
         if (runThread != null) {
             runThread = null;
         }
-        isRun = false;
         isStart = false;
-        isStop=false;
+        isStop = false;
+        isKeepHeight = false;
         h = mHeight;
         sin_offset = 0;
         invalidate();
     }
 
-    RunThread runThread;
+    private RunThread runThread;
 
     public void start() {
-        isRun = true;
-        isStop=false;
         if (!isStart) {
             isStart = true;
             runThread = new RunThread();
@@ -217,21 +219,38 @@ public class WaterView extends View {
     }
 
     public void stop() {
-        isStop=true;
-    }
-    public void recover() {
-        isStop=false;
+        isStop = true;
+        isKeepHeight = false;
     }
 
-    class RunThread extends Thread {
+    public void recover() {
+        isStop = false;
+    }
+
+    public void keepHeight() {
+        isStop = true;
+        isKeepHeight = true;
+    }
+
+
+    private class RunThread extends Thread {
 
         @Override
         public void run() {
             while (isStart) {
-                if (!isRun) {
-                    return;
-                }
+
                 if (isStop) {
+                    if (isKeepHeight) {
+                        try {
+
+
+                            Thread.sleep(sleep_time);
+                            sin_offset += sin_offset_increment_value;
+                            postInvalidate();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     continue;
                 }
                 try {
